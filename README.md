@@ -19,3 +19,4 @@ Assignment
 8) Finally, make the appropriate adjustments to your VBA script to enable it to run on every worksheet at once.
 
 Code and screenshots in .zip file. (Left code as .bas for easy access.)
+Addendum: added .rtf file to folder because .bas took away all my hard work of adding ws. to all the range and cells in the code. Happy Holidays to all, and to all a New Year.
