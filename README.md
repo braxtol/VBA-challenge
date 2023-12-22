@@ -17,3 +17,5 @@ Assignment
 6) Then use conditional formatting that will highlight positive change in green and negative change in red.
 7) Next, add functionality to your script to return the stock with the "Greatest % increase", "Greatest % decrease", and "Greatest total volume". 
 8) Finally, make the appropriate adjustments to your VBA script to enable it to run on every worksheet at once.
+
+Code and screenshots in .zip file. (Left code as .bas for easy access.)
