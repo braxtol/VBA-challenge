@@ -1,0 +1,102 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2758
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Attribute VB_Name = "Module1"\
+Sub smartAs()\
+Dim ws As Worksheet\
+Dim ticker As String\
+Dim finish As Double\
+Dim finishvol As Double\
+Dim begin As Double\
+Dim beginvol As Double\
+Dim yearchange As Double\
+Dim percentchange As Double\
+Dim totalvol As Double\
+Dim Last_Row As Long\
+Dim Summary_Table_Row As Integer\
+Dim tickerincrease As Double\
+Dim tickerdecrease As Double\
+Dim tickergreatestvol As Double\
+\
+\
+For Each ws In Worksheets\
+\
+'initialize variables\
+Summary_Table_Row = 2\
+totalvol = 0\
+ws.Range("I1") = "Ticker"\
+ws.Range("J1") = "Yearly Change ($)"\
+ws.Range("k1") = "% Change"\
+ws.Range("L1") = "Total Stock Volume"\
+ws.Columns(9).AutoFit\
+ws.Columns(10).AutoFit\
+ws.Columns(11).AutoFit\
+ws.Columns(15).AutoFit\
+ws.Columns(16).AutoFit\
+ws.Columns(17).AutoFit\
+ws.Range("O2") = "Greatest % Increase"\
+ws.Range("O3") = "Greatest % Decrease"\
+ws.Range("O4") = "Greatest Total Volume"\
+ws.Range("P1") = "Ticker"\
+ws.Range("Q1") = "Value"\
+\
+begin = ws.Cells(2, 3).Value\
+  'Loop through rows in the column to get it done.\
+Last_Row = ws.Cells(Rows.Count, 1).End(xlUp).Row\
+\
+\
+\
+For i = 2 To Last_Row\
+\
+     If ws.Cells(i, 1).Value <> ws.Cells(i + 1, 1).Value Then\
+            ticker = ws.Cells(i, 1).Value\
+            totalvol = totalvol + ws.Cells(i, 7).Value\
+            yearchange = ws.Cells(i, 6).Value - begin\
+            percentchange = (yearchange / ws.Cells(i, 6).Value)\
+            \
+            ws.Range("I" & Summary_Table_Row).Value = ticker\
+            ws.Range("J" & Summary_Table_Row).Value = yearchange\
+                    If ws.Range("J" & Summary_Table_Row).Value > 0 Then\
+                            ws.Range("J" & Summary_Table_Row).Interior.ColorIndex = 4\
+                    Else\
+                            ws.Range("J" & Summary_Table_Row).Interior.ColorIndex = 3\
+                    End If\
+            ws.Range("K" & Summary_Table_Row).Value = percentchange\
+            ws.Range("K" & Summary_Table_Row).NumberFormat = "0.00%"\
+            ws.Range("L" & Summary_Table_Row).Value = totalvol\
+           \
+           'reset variables\
+           totalvol = 0\
+           begin = ws.Cells(i + 1, 3).Value\
+           Summary_Table_Row = Summary_Table_Row + 1\
+       Else\
+            totalvol = totalvol + ws.Cells(i, 7).Value\
+       End If\
+   \
+   Next i\
+       \
+   ws.Range("Q2").Value = WorksheetFunction.Max(ws.Range("K2:K301"))\
+   ws.Range("Q2").NumberFormat = "0.00%"\
+   tickerincrease = WorksheetFunction.Match(ws.Range("Q2").Value, ws.Range("K2:K301"), 0)\
+   ws.Range("P2").Value = ws.Range("I" & tickerincrease + 1).Value\
+   \
+   ws.Range("Q3").Value = WorksheetFunction.Min(ws.Range("K2:K301"))\
+   ws.Range("Q3").NumberFormat = "0.00%"\
+   tickerdecrease = WorksheetFunction.Match(ws.Range("Q3").Value, ws.Range("K2:K301"), 0)\
+   ws.Range("P3").Value = ws.Range("I" & tickerdecrease + 1).Value\
+   \
+   ws.Range("Q4").Value = WorksheetFunction.Max(ws.Range("L2:L301"))\
+   tickergreatestvol = WorksheetFunction.Match(ws.Range("Q4").Value, ws.Range("L2:L301"), 0)\
+   ws.Range("P4").Value = ws.Range("I" & tickergreatestvol + 1).Value\
+\
+  Next ws\
+\
+End Sub\
+\
+\
+\
+}
